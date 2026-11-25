@@ -1,11 +1,11 @@
-// Rust check/test through blaze (https://github.com/indexable-inc/blaze),
-// falling back to cargo when blaze isn't installed or can't build here
-// (Windows, Intel Macs, or a blaze release without its toolchain).
-// Usage: node scripts/rust.mjs check|test [--cargo]
+// Rust check/test. Uses cargo by default.
+// blaze (https://github.com/indexable-inc/blaze) is opt-in for now: pass --blaze
+// or set SOLOFORGE_USE_BLAZE=1. If blaze can't build here, this falls back to cargo.
+// Usage: node scripts/rust.mjs check|test [--blaze]
 import { spawnSync } from "node:child_process";
 
 const cmd = process.argv[2] ?? "check";
-const forceCargo = process.argv.includes("--cargo") || process.env.SOLOFORGE_NO_BLAZE === "1";
+const useBlaze = process.argv.includes("--blaze") || process.env.SOLOFORGE_USE_BLAZE === "1";
 
 function run(bin, args) {
   const r = spawnSync(bin, args, { stdio: ["inherit", "inherit", "pipe"], encoding: "utf8" });
@@ -13,7 +13,7 @@ function run(bin, args) {
   return r;
 }
 
-if (!forceCargo && process.platform !== "win32") {
+if (useBlaze && process.platform !== "win32") {
   const r = run("blaze", [cmd]);
   if (!r.error && r.status === 0) process.exit(0);
   const why = r.error ? "blaze is not installed" : /toolchain|no dependency graph|refused/i.test(r.stderr ?? "") ? "blaze can't build here" : null;

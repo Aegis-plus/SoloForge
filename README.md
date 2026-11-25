@@ -54,9 +54,9 @@ Build installers (`.deb`, `.AppImage`, `.dmg` or `.msi`, depending on your OS):
 npm run tauri build
 ```
 
-## Building the Rust side with blaze
+## Building the Rust side
 
-[blaze](https://github.com/indexable-inc/blaze) is a fast, cargo-compatible builder for Rust. SoloForge pins it in `Cargo.toml` (`[workspace.metadata.blaze]`) and uses it for checks and tests:
+The Rust side builds with **cargo**:
 
 ```bash
 npm run check
@@ -66,10 +66,9 @@ npm run check
 npm test
 ```
 
-- **Fallback to cargo:** `scripts/rust.mjs` runs `blaze check` or `blaze test` first. It falls back to cargo when blaze isn't installed or can't build on this machine (Windows, Intel Macs, or a blaze release that ships without its toolchain).
-- **Pinned version:** blaze 0.20261122.0 currently stops with "run `blaze-toolchain` from its tree". Until a release ships that toolchain, the script uses cargo.
-- **Installers:** `tauri build` always uses cargo underneath. Blaze has no `build` command, and the Tauri CLI calls cargo directly.
-- **Final word:** cargo stays the final word for CI, as blaze's own README recommends.
+These run `cargo check --workspace --all-targets` and `cargo test --workspace` (plus `tsc` and Vitest).
+
+**blaze is opt-in for now.** [blaze](https://github.com/indexable-inc/blaze) is pinned in `Cargo.toml` (`[workspace.metadata.blaze]`), but its current release (0.20261122.0) ships without the toolchain it needs. To try it, add `--blaze` (`node scripts/rust.mjs test --blaze`) or set `SOLOFORGE_USE_BLAZE=1`. If blaze can't build on your machine, the script falls back to cargo.
 
 ## Image endpoint
 

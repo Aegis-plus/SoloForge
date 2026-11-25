@@ -7,9 +7,8 @@ version = "0.1.0"
 edition = "2021"
 license = "MIT OR Apache-2.0"
 
-# blaze (https://github.com/indexable-inc/blaze) builds the Rust side fast:
-#   blaze check   blaze test   blaze run
-# `cargo` stays the final word (and is what `tauri build` uses underneath).
+# Builds use cargo. blaze (https://github.com/indexable-inc/blaze) is opt-in
+# (`node scripts/rust.mjs test --blaze`) until a release ships its toolchain.
 [workspace.metadata.blaze]
 version = "0.20261122.0"
 

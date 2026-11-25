@@ -29,6 +29,10 @@ The rules are **Solo 5e-inspired**: d20 checks, advantage, AC, HP and conditions
 - **Every roll comes from the app's RNG.** The GM can't make up results, and the UI shows each roll card as it happens.
 - **The GM asks before changing your sheet.** Loot and XP arrive as proposals you accept or decline.
 
+## Download
+
+Prebuilt installers for Windows, macOS (Apple silicon and Intel) and Linux are on the [Releases page](https://github.com/Aegis-plus/SoloForge/releases). To publish a new release, bump the version in `package.json`, `Cargo.toml` and `src-tauri/tauri.conf.json`, then push a tag such as `v0.1.1`. The **Release** workflow builds every platform and attaches the installers.
+
 ## Requirements
 
 - **Claude Code**, installed and signed in. Run `claude` once in a terminal. No Anthropic API key is needed.

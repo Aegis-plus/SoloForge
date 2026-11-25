@@ -1,0 +1,14 @@
+SoloForge
+Copyright (c) 2026 SoloForge contributors. Licensed MIT OR Apache-2.0 (see LICENSE).
+
+This product includes material from the System Reference Document 5.1 ("SRD 5.1")
+by Wizards of the Coast LLC, available at https://dnd.wizards.com/resources/systems-reference-document.
+The SRD 5.1 is licensed under the Creative Commons Attribution 4.0 International License,
+available at https://creativecommons.org/licenses/by/4.0/legalcode.
+Used in: assets/compendium/*.json and the core mechanics summarised in assets/rules/solo5e.md
+(adapted and abbreviated; solo rules such as Fate, minions and Tension are SoloForge's own).
+
+Fonts (bundled via @fontsource, SIL Open Font License 1.1):
+  Alegreya and Alegreya Sans by Juan Pablo del Peral (Huerta Tipográfica)
+  JetBrains Mono by JetBrains
+Icons: shapes after Lucide (ISC License).

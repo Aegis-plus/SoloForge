@@ -1,0 +1,17 @@
+[
+  {"id":"fire-bolt","name":"Fire Bolt","level":0,"school":"evocation","summary":"Action · 120 ft · ranged spell attack · 1d10 fire"},
+  {"id":"sacred-flame","name":"Sacred Flame","level":0,"school":"evocation","summary":"Action · 60 ft · DEX save · 1d8 radiant"},
+  {"id":"light","name":"Light","level":0,"school":"evocation","summary":"Action · touch · an object sheds bright light 20 ft for 1 hour"},
+  {"id":"magic-missile","name":"Magic Missile","level":1,"school":"evocation","summary":"Action · 120 ft · 3 darts, 1d4+1 force each, never miss"},
+  {"id":"shield","name":"Shield","level":1,"school":"abjuration","summary":"Reaction · +5 AC until the start of your next turn"},
+  {"id":"sleep","name":"Sleep","level":1,"school":"enchantment","summary":"Action · 90 ft · 5d8 HP of creatures fall asleep"},
+  {"id":"cure-wounds","name":"Cure Wounds","level":1,"school":"evocation","summary":"Action · touch · heal 1d8 + ability modifier"},
+  {"id":"healing-word","name":"Healing Word","level":1,"school":"evocation","summary":"Bonus action · 60 ft · heal 1d4 + ability modifier"},
+  {"id":"bless","name":"Bless","level":1,"school":"enchantment","summary":"Concentration · up to 3 creatures add 1d4 to attacks and saves"},
+  {"id":"guiding-bolt","name":"Guiding Bolt","level":1,"school":"evocation","summary":"Action · 120 ft · 4d6 radiant, next attack has advantage"},
+  {"id":"hunters-mark","name":"Hunter’s Mark","level":1,"school":"divination","summary":"Bonus action · concentration · +1d6 damage to the marked target"},
+  {"id":"thunderwave","name":"Thunderwave","level":1,"school":"evocation","summary":"Action · 15 ft cube · CON save · 2d8 thunder, push 10 ft"},
+  {"id":"misty-step","name":"Misty Step","level":2,"school":"conjuration","summary":"Bonus action · teleport 30 ft"},
+  {"id":"hold-person","name":"Hold Person","level":2,"school":"enchantment","summary":"Concentration · WIS save or paralyzed"},
+  {"id":"spiritual-weapon","name":"Spiritual Weapon","level":2,"school":"evocation","summary":"Bonus action · floating weapon, 1d8 + mod force"}
+]

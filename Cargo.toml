@@ -1,0 +1,26 @@
+[workspace]
+resolver = "2"
+members = ["crates/core", "src-tauri"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+
+# blaze (https://github.com/indexable-inc/blaze) builds the Rust side fast:
+#   blaze check   blaze test   blaze run
+# `cargo` stays the final word (and is what `tauri build` uses underneath).
+[workspace.metadata.blaze]
+version = "0.20261122.0"
+
+[workspace.dependencies]
+anyhow = "1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "process", "io-util", "sync", "time", "net", "fs", "signal"] }
+axum = { version = "0.7", default-features = false, features = ["http1", "json", "tokio"] }
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls", "multipart"] }
+rand = "0.8"
+uuid = { version = "1", features = ["v4", "serde"] }
+base64 = "0.22"
+directories = "5"

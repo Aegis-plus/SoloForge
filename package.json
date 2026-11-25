@@ -1,0 +1,33 @@
+{
+  "name": "soloforge",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "tauri": "tauri",
+    "test": "npm run test:rust && npm run test:web",
+    "test:web": "vitest run",
+    "test:rust": "node scripts/rust.mjs test",
+    "check": "node scripts/rust.mjs check && tsc --noEmit",
+    "e2e": "node e2e/smoke.mjs"
+  },
+  "dependencies": {
+    "@fontsource/alegreya": "^5.3.0",
+    "@fontsource/alegreya-sans": "^5.3.0",
+    "@fontsource/jetbrains-mono": "^5.3.0",
+    "@tauri-apps/api": "^2.12.5",
+    "solid-js": "^1.9.20"
+  },
+  "devDependencies": {
+    "@solidjs/testing-library": "^0.8.10",
+    "@tauri-apps/cli": "^2.12.6",
+    "jsdom": "^31.0.1",
+    "typescript": "^5.9.3",
+    "vite": "^6.4.6",
+    "vite-plugin-solid": "^2.11.17",
+    "vitest": "^3.2.7"
+  }
+}

@@ -1,0 +1,18 @@
+[
+  {"id":"longsword","name":"Longsword","type":"weapon","summary":"1d8 slashing · versatile (1d10)","cost":"15 gp"},
+  {"id":"shortsword","name":"Shortsword","type":"weapon","summary":"1d6 piercing · finesse, light","cost":"10 gp"},
+  {"id":"dagger","name":"Dagger","type":"weapon","summary":"1d4 piercing · finesse, light, thrown 20/60 ft","cost":"2 gp"},
+  {"id":"longbow","name":"Longbow","type":"weapon","summary":"1d8 piercing · 150/600 ft · two-handed","cost":"50 gp"},
+  {"id":"shortbow","name":"Shortbow","type":"weapon","summary":"1d6 piercing · 80/320 ft · two-handed","cost":"25 gp"},
+  {"id":"mace","name":"Mace","type":"weapon","summary":"1d6 bludgeoning","cost":"5 gp"},
+  {"id":"greataxe","name":"Greataxe","type":"weapon","summary":"1d12 slashing · heavy, two-handed","cost":"30 gp"},
+  {"id":"leather","name":"Leather Armour","type":"armour","summary":"AC 11 + DEX","cost":"10 gp"},
+  {"id":"studded-leather","name":"Studded Leather","type":"armour","summary":"AC 12 + DEX","cost":"45 gp"},
+  {"id":"chain-mail","name":"Chain Mail","type":"armour","summary":"AC 16 · STR 13 · stealth disadvantage","cost":"75 gp"},
+  {"id":"shield","name":"Shield","type":"armour","summary":"+2 AC","cost":"10 gp"},
+  {"id":"healing-potion","name":"Healing Potion","type":"consumable","summary":"Drink as a bonus action (solo rule) · heal 2d4+2","cost":"50 gp"},
+  {"id":"rope","name":"Rope, Hempen (50 ft)","type":"gear","summary":"DC 17 STR to burst","cost":"1 gp"},
+  {"id":"torch","name":"Torch","type":"gear","summary":"Bright light 20 ft, dim 20 ft more, 1 hour","cost":"1 cp"},
+  {"id":"thieves-tools","name":"Thieves’ Tools","type":"tool","summary":"Pick locks, disarm traps","cost":"25 gp"},
+  {"id":"healers-kit","name":"Healer’s Kit","type":"tool","summary":"10 uses · stabilise a dying creature","cost":"5 gp"}
+]

@@ -31,7 +31,7 @@ The rules are **Solo 5e-inspired**: d20 checks, advantage, AC, HP and conditions
 
 ## Download
 
-Prebuilt installers for Windows, macOS (Apple silicon and Intel) and Linux are on the [Releases page](https://github.com/Aegis-plus/SoloForge/releases). To publish a new release, bump the version in `package.json`, `Cargo.toml` and `src-tauri/tauri.conf.json`, then push a tag such as `v0.1.1`. The **Release** workflow builds every platform and attaches the installers.
+Prebuilt builds for **Windows** (`.msi`, `-setup.exe`) and **Linux** (`.AppImage`, `.deb`, or the plain binary in a `.tar.gz`), all x86_64, are on the [Releases page](https://github.com/Aegis-plus/SoloForge/releases). The `.tar.gz` binary needs WebKitGTK 4.1 installed (`libwebkit2gtk-4.1-0` on Debian/Ubuntu). macOS: build from source for now. To publish a new release, bump the version in `package.json`, `Cargo.toml` and `src-tauri/tauri.conf.json`, then push a tag such as `v0.1.1`. The **Release** workflow builds Linux and Windows and attaches the files.
 
 ## Requirements
 

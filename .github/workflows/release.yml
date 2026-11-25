@@ -1,7 +1,9 @@
 name: Release
 
-# Push a version tag (e.g. v0.1.0) to build installers for Linux, Windows and
-# macOS and publish them on a GitHub Release. Can also be started by hand.
+# Push a version tag (e.g. v0.1.0) to build SoloForge for Linux and Windows
+# (x86_64) and publish it on a GitHub Release. Can also be started by hand.
+#   Linux:   .AppImage, .deb, and the plain binary in a .tar.gz
+#   Windows: .msi and an NSIS -setup.exe
 on:
   push:
     tags: ["v*"]
@@ -21,18 +23,12 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - name: Linux x64
+          - name: Linux x86_64
             os: ubuntu-22.04
-            args: ""
-          - name: Windows x64
+            args: "--bundles deb,appimage"
+          - name: Windows x86_64
             os: windows-latest
-            args: ""
-          - name: macOS Apple silicon
-            os: macos-latest
-            args: "--target aarch64-apple-darwin"
-          - name: macOS Intel
-            os: macos-latest
-            args: "--target x86_64-apple-darwin"
+            args: "--bundles msi,nsis"
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -49,8 +45,6 @@ jobs:
           cache: npm
 
       - uses: dtolnay/rust-toolchain@stable
-        with:
-          targets: ${{ runner.os == 'macOS' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
 
       - uses: swatinem/rust-cache@v2
         with:
@@ -71,17 +65,31 @@ jobs:
             SoloForge v__VERSION__ — a solo virtual tabletop with Claude Code as your Game Master.
 
             **Download**
-            - **Windows:** `.msi` or `-setup.exe`
-            - **macOS:** `.dmg` (`aarch64` for Apple silicon, `x64` for Intel)
-            - **Linux:** `.AppImage`, or `.deb` for Debian/Ubuntu
+            - **Windows (x86_64):** `.msi` or `-setup.exe`
+            - **Linux (x86_64):** `.AppImage` (any distro), `.deb` (Debian/Ubuntu), or `.tar.gz` with the plain `soloforge` binary (needs WebKitGTK 4.1 installed, e.g. `libwebkit2gtk-4.1-0`)
 
             **Before you play**
             - Install Claude Code and sign in once (`claude` in a terminal). No API key is needed for the GM.
             - Optional: add an OpenAI-compatible image endpoint (e.g. Nano Banana via OpenRouter) in Settings › Image Endpoint.
 
-            These builds are not code-signed yet. On macOS, right-click the app and choose Open the first time; on Windows, choose More info › Run anyway.
+            These builds are not code-signed yet. On Windows, choose More info › Run anyway if SmartScreen warns you.
 
             Includes material from the SRD 5.1 under CC-BY-4.0 (see NOTICE).
           releaseDraft: false
           prerelease: false
           args: ${{ matrix.args }}
+
+      - name: Package the Linux binary as .tar.gz and attach it
+        if: runner.os == 'Linux'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          NAME="SoloForge_${VERSION}_linux_x86_64"
+          mkdir -p "dist-tar/$NAME"
+          cp target/release/soloforge "dist-tar/$NAME/"
+          cp README.md LICENSE NOTICE "dist-tar/$NAME/"
+          tar -C dist-tar -czf "$NAME.tar.gz" "$NAME"
+          sha256sum "$NAME.tar.gz"
+          gh release upload "v$VERSION" "$NAME.tar.gz" --clobber --repo "$GITHUB_REPOSITORY"

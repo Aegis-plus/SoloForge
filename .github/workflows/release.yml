@@ -17,8 +17,36 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  create-release:
+    name: Create release
+    runs-on: ubuntu-latest
+    outputs:
+      release_id: ${{ steps.release.outputs.id }}
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: version
+        run: echo "version=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+      - id: release
+        name: Create the release (or reuse it if it exists)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          TAG="v$VERSION"
+          if id=$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$TAG" --jq .id 2>/dev/null); then
+            echo "Reusing release $TAG ($id)"
+          else
+            sed "s/__VERSION__/$VERSION/g" .github/release-notes.md > notes.md
+            id=$(gh api -X POST "repos/$GITHUB_REPOSITORY/releases" -f tag_name="$TAG" -f target_commitish="$GITHUB_SHA" \
+              -f name="SoloForge $TAG" -F body=@notes.md -F draft=false -F prerelease=false --jq .id)
+            echo "Created release $TAG ($id)"
+          fi
+          echo "id=$id" >> "$GITHUB_OUTPUT"
+
   build:
     name: Build (${{ matrix.name }})
+    needs: create-release
     strategy:
       fail-fast: false
       matrix:
@@ -49,7 +77,7 @@ jobs:
       - uses: swatinem/rust-cache@v2
         with:
           workspaces: ". -> target"
-          key: ${{ matrix.args }}
+          key: ${{ runner.os }}-release
 
       - name: Install npm packages
         run: npm ci
@@ -59,24 +87,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tagName: v__VERSION__
-          releaseName: SoloForge v__VERSION__
-          releaseBody: |
-            SoloForge v__VERSION__ — a solo virtual tabletop with Claude Code as your Game Master.
-
-            **Download**
-            - **Windows (x86_64):** `.msi` or `-setup.exe`
-            - **Linux (x86_64):** `.AppImage` (any distro), `.deb` (Debian/Ubuntu), or `.tar.gz` with the plain `soloforge` binary (needs WebKitGTK 4.1 installed, e.g. `libwebkit2gtk-4.1-0`)
-
-            **Before you play**
-            - Install Claude Code and sign in once (`claude` in a terminal). No API key is needed for the GM.
-            - Optional: add an OpenAI-compatible image endpoint (e.g. Nano Banana via OpenRouter) in Settings › Image Endpoint.
-
-            These builds are not code-signed yet. On Windows, choose More info › Run anyway if SmartScreen warns you.
-
-            Includes material from the SRD 5.1 under CC-BY-4.0 (see NOTICE).
-          releaseDraft: false
-          prerelease: false
+          releaseId: ${{ needs.create-release.outputs.release_id }}
           args: ${{ matrix.args }}
 
       - name: Package the Linux binary as .tar.gz and attach it
@@ -85,7 +96,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          VERSION=$(node -p "require('./package.json').version")
+          VERSION="${{ needs.create-release.outputs.version }}"
           NAME="SoloForge_${VERSION}_linux_x86_64"
           mkdir -p "dist-tar/$NAME"
           cp target/release/soloforge "dist-tar/$NAME/"
